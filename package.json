@@ -1,0 +1,12 @@
+{
+	"name": "TextToDance",
+	"version": "1.0.0",
+	"description": "A nice bot to turn text into dancing letters",
+	"main": "dance.js",
+	"author": "MattGuy#4864",
+	"dependencies": {
+		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+		"discord.js": "^12.4.0",
+		"winston": "^3.3.3"
+	}
+}
