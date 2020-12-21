@@ -1,7 +1,7 @@
 //make special array
 var dancingLetters = ["aa","bb","cc","dd","ee","ff","gg","hh","i_","jj","kk","ll","m_","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww","xx","y_","z_"];
 var dancingNumbers = ["00","11","2_","33","44","55","6_","77","88","99"];
-var dancingSpecial = ["excimation","dollar","amprs","questmark"];
+var dancingSpecial = ["excimation","dollar","amprs","questmark","at"];
 
 'use strict';
 
@@ -94,6 +94,11 @@ client.on('message', message => {
 				}
 				else if(msg.charCodeAt(i) == 63){
 					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[3]);
+					newMsg = newMsg + `${emoji}`;
+					hasContent = true;
+				}
+				else if(msg.charCodeAt(i) == 64){
+					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[4]);
 					newMsg = newMsg + `${emoji}`;
 					hasContent = true;
 				}
