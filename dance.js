@@ -6,10 +6,10 @@ var dancingSpecial = ["excimation","dollar","amprs","questmark","at"];
 'use strict';
 
 // Import the discord.js module
-const Discord = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 
 // Create an instance of a Discord client
-const client = new Discord.Client();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 
 // import token
 const credentials = require('./auth.json');
@@ -17,108 +17,105 @@ const credentials = require('./auth.json');
 client.on('ready', () => {
   client.user.setPresence({
     status: 'online',
-    activity: {
-        name: 'for ^message',
-	type: "WATCHING"
-    }
   });
   console.log('I am ready!');
 });
 
 // Create an event listener for messages
-client.on('message', message => {
-	client.user.setPresence({
-		status: 'online',
-		activity: {
-			name: 'for ^message',
-		type: "WATCHING"
-		}
-	});
-	// waits for up caret
-	if (message.content.substring(0,1) === '^' && message.content.length > 1) {
-		var hasContent = false;
-		var msg = "";
-		msg = message.content.substring(1);
-		var user = message.author.username;
-		console.log(user + ":" + msg);
-		var newMsg = "";
-		var emoji;
-		for(let i=0;i<msg.length;i++){
-			if(msg.charAt(i) === '<'){
-				var temp = "";
-				var okSend = true;
-				while(msg.charAt(i)!='>'){
-					temp = temp + msg.charAt(i);
-					i++;
-					if(i > msg.length){
-						okSend = false;
-						break;
-					}
-				}
-				if(okSend){
-					temp = temp + msg.charAt(i);
-					i++;
-					newMsg = newMsg + `${temp}`;
-				}
+client.on('messageCreate', async message => {
+	if (message.content.toLowerCase() === '!dance deploy' && message.author.id == '492850107038040095') {
+		console.log('deploying commands');
+		const data = [
+			{
+				name: 'dance',
+				description: 'Turns your input into dancing letters!',
+				options: [{
+					name: 'input',
+					type: 'STRING',
+					description: 'The text to change',
+					required: true,
+				}],
 			}
-			if(48 <= msg.charCodeAt(i) && msg.charCodeAt(i) <=57){
-				emoji = client.emojis.cache.find(emoji => emoji.name === dancingNumbers[msg.charCodeAt(i)-48]);
-				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
-			}
-			else if(65 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 90){
-				emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-65]);
-				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
-			}
-			else if(97 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 122){
-				emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-97]);
-				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
-			}
-			else{
-				if(msg.charCodeAt(i) == 33){
-					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[0]);
-					newMsg = newMsg + `${emoji}`;
-					hasContent = true;
-				}
-				else if(msg.charCodeAt(i) == 36){
-					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[1]);
-					newMsg = newMsg + `${emoji}`;
-					hasContent = true;
-				}
-				else if(msg.charCodeAt(i) == 38){
-					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[2]);
-					newMsg = newMsg + `${emoji}`;
-					hasContent = true;
-				}
-				else if(msg.charCodeAt(i) == 63){
-					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[3]);
-					newMsg = newMsg + `${emoji}`;
-					hasContent = true;
-				}
-				else if(msg.charCodeAt(i) == 64){
-					emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[4]);
-					newMsg = newMsg + `${emoji}`;
-					hasContent = true;
-				}
-				else{
-					newMsg = newMsg + `   `;
-				}
-			}
-			//console.log(newMsg);
-		}
-		if(hasContent){
-			message.delete();
-			if(newMsg.length > 2000){
-				 message.channel.send(`Message was too long!`);
-			}
-			else{
-				 message.channel.send(`*${user} said,*`);
-				 message.channel.send(`${newMsg}`);
-			}
-		}
+		];
+
+		const command = await client.guilds.cache.get(message.guildId)?.commands.set(data);
 	}
+});
+	
+	
+client.on('interactionCreate', async interaction => {
+	// waits for up caret
+	var msg = interaction.options.getString('input');
+	var user = await interaction.member.displayName;
+	console.log(user + ":" + msg);
+	var newMsg = "";
+	var emoji;
+	for(let i=0;i<msg.length;i++){
+		if(msg.charAt(i) === '<'){
+			var temp = "";
+			var okSend = true;
+			while(msg.charAt(i)!='>'){
+				temp = temp + msg.charAt(i);
+				i++;
+				if(i > msg.length){
+					okSend = false;
+					break;
+				}
+			}
+			if(okSend){
+				temp = temp + msg.charAt(i);
+				i++;
+				newMsg = newMsg + `${temp}`;
+			}
+		}
+		if(48 <= msg.charCodeAt(i) && msg.charCodeAt(i) <=57){
+			emoji = client.emojis.cache.find(emoji => emoji.name === dancingNumbers[msg.charCodeAt(i)-48]);
+			newMsg = newMsg + `${emoji}`;
+			hasContent = true;
+		}
+		else if(65 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 90){
+			emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-65]);
+			newMsg = newMsg + `${emoji}`;
+			hasContent = true;
+		}
+		else if(97 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 122){
+			emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-97]);
+			newMsg = newMsg + `${emoji}`;
+			hasContent = true;
+		}
+		else{
+			if(msg.charCodeAt(i) == 33){
+				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[0]);
+				newMsg = newMsg + `${emoji}`;
+				hasContent = true;
+			}
+			else if(msg.charCodeAt(i) == 36){
+				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[1]);
+				newMsg = newMsg + `${emoji}`;
+				hasContent = true;
+			}
+			else if(msg.charCodeAt(i) == 38){
+				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[2]);
+				newMsg = newMsg + `${emoji}`;
+				hasContent = true;
+			}
+			else if(msg.charCodeAt(i) == 63){
+				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[3]);
+				newMsg = newMsg + `${emoji}`;
+				hasContent = true;
+			}
+			else if(msg.charCodeAt(i) == 64){
+				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[4]);
+				newMsg = newMsg + `${emoji}`;
+				hasContent = true;
+			}
+			else{
+				newMsg = newMsg + `   `;
+			}
+		}
+		//console.log(newMsg);
+	}
+	interaction.reply(newMsg);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
