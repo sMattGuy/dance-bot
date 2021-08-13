@@ -102,7 +102,7 @@ client.on('interactionCreate', async interaction => {
 				newMsg = newMsg + `${emoji}`;
 			}
 			else{
-				newMsg = newMsg + `${msg[i]}  `;
+				newMsg = newMsg + msg[i];
 			}
 		}
 		//console.log(newMsg);
