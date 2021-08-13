@@ -119,9 +119,8 @@ client.on('interactionCreate', async interaction => {
 		interaction.reply({ content: `Your message was too long!`, ephemeral: true })
 	}
 	else{
-		let intCatch = interaction;
 		interaction.reply(newMsg).catch(e => {
-			intCatch.reply({ content: `Your message was invalid!`, ephemeral: true })
+			console.log(e);
 		});
 	}
 });
