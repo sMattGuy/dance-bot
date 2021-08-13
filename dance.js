@@ -115,7 +115,12 @@ client.on('interactionCreate', async interaction => {
 		}
 		//console.log(newMsg);
 	}
-	interaction.reply(newMsg);
+	if(newMsg.length > 2000){
+		interaction.reply({ content: `Your message was too long!`, ephemeral: true })
+	}
+	else{
+		interaction.reply(newMsg);
+	}
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
