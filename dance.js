@@ -115,7 +115,7 @@ client.on('interactionCreate', async interaction => {
 		}
 		//console.log(newMsg);
 	}
-	interaction.reply(newMsg).catch(msg => {msg.reply({ content: `Your message was invalid!`, ephemeral: true })});
+	interaction.reply(newMsg).catch(errInt => {errInt.reply({ content: `Your message was invalid!`, ephemeral: true })});
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
