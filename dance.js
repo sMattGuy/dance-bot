@@ -118,6 +118,9 @@ client.on('interactionCreate', async interaction => {
 	if(newMsg.length > 2000){
 		interaction.reply({ content: `Your message was too long!`, ephemeral: true })
 	}
+	else if(newMsg.length == 0){
+		interaction.reply({ content: `Your message is empty!`, ephemeral: true })
+	}
 	else{
 		interaction.reply(newMsg);
 	}
