@@ -71,46 +71,38 @@ client.on('interactionCreate', async interaction => {
 		if(48 <= msg.charCodeAt(i) && msg.charCodeAt(i) <=57){
 			emoji = client.emojis.cache.find(emoji => emoji.name === dancingNumbers[msg.charCodeAt(i)-48]);
 			newMsg = newMsg + `${emoji}`;
-			hasContent = true;
 		}
 		else if(65 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 90){
 			emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-65]);
 			newMsg = newMsg + `${emoji}`;
-			hasContent = true;
 		}
 		else if(97 <= msg.charCodeAt(i) && msg.charCodeAt(i) <= 122){
 			emoji = client.emojis.cache.find(emoji => emoji.name === dancingLetters[msg.charCodeAt(i)-97]);
 			newMsg = newMsg + `${emoji}`;
-			hasContent = true;
 		}
 		else{
 			if(msg.charCodeAt(i) == 33){
 				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[0]);
 				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
 			}
 			else if(msg.charCodeAt(i) == 36){
 				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[1]);
 				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
 			}
 			else if(msg.charCodeAt(i) == 38){
 				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[2]);
 				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
 			}
 			else if(msg.charCodeAt(i) == 63){
 				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[3]);
 				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
 			}
 			else if(msg.charCodeAt(i) == 64){
 				emoji = client.emojis.cache.find(emoji => emoji.name === dancingSpecial[4]);
 				newMsg = newMsg + `${emoji}`;
-				hasContent = true;
 			}
 			else{
-				newMsg = newMsg + `   `;
+				newMsg = newMsg + `${msg[i]}  `;
 			}
 		}
 		//console.log(newMsg);
