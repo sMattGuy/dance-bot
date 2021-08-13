@@ -69,7 +69,7 @@ client.on('interactionCreate', async interaction => {
 			}
 			i++;
 		}
-		if(48 <= msg.charCodeAt(i) && msg.charCodeAt(i) <=57){
+		else if(48 <= msg.charCodeAt(i) && msg.charCodeAt(i) <=57){
 			emoji = client.emojis.cache.find(emoji => emoji.name === dancingNumbers[msg.charCodeAt(i)-48]);
 			newMsg = newMsg + `${emoji}`;
 		}
