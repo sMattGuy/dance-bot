@@ -14,6 +14,8 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 // import token
 const credentials = require('./auth.json');
 
+const messageMap = new Map();
+
 client.on('ready', () => {
   client.user.setPresence({
     status: 'online',
@@ -23,6 +25,32 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('messageCreate', async message => {
+	//haha funny
+	if(messageMap.has(message.channel.id) && !message.author.bot){
+		if(messageMap.get(message.channel.id).content == message.content && messageMap.get(message.channel.id).author != message.author.id){
+			let messUpdate = messageMap.get(message.channel.id);
+			messUpdate.times += 1;
+			messUpdate.author = message.author.id;
+			messageMap.set(message.channel.id,messUpdate);
+			if(messUpdate.times == 3){
+				if(messUpdate.content.length != 0){
+					message.channel.send(messUpdate.content);
+				}
+				else{
+					message.channel.send({stickers:messUpdate.sticker}).catch(() => {console.log('could not send sticker')});
+				}
+				messageMap.delete(message.channel.id);
+			}
+		}
+		else{
+			let newInput = {content:message.content,times:1,author:message.author.id,sticker:message.stickers};
+			messageMap.set(message.channel.id,newInput);
+		}
+	}
+	else{
+		let newInput = {content:message.content,times:1,author:message.author.id,sticker:message.stickers};
+		messageMap.set(message.channel.id,newInput);
+	}
 	if (message.content.toLowerCase() === '!dance deploy' && message.author.id == '492850107038040095') {
 		console.log('deploying commands');
 		const data = [
