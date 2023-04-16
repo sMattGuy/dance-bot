@@ -24,6 +24,8 @@ for (const file of commandFiles) {
 
 client.once(Events.ClientReady, c => {
 	console.log(`Ready! Logged in as ${c.user.tag}`);
+	let guilds = client.guilds.cache.map(guild => guild.id);
+	console.log(guilds);
 });
 
 client.on(Events.InteractionCreate, async interaction => {
